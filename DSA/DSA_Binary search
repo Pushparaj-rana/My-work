@@ -1,0 +1,82 @@
+def linearsearch(number_list,number_to_find):
+
+    for index, element in enumerate(number_list):
+        if element == number_to_find:
+            return index
+        
+    return -1
+
+def binarysearch(number_list,number_to_find):
+    left_index = 0
+    right_index = len(number_list) - 1
+    mid_index = 0
+
+    while left_index <= right_index:
+
+        mid_index = (right_index + left_index)//2
+        if number_list[mid_index] == number_to_find:
+            return  mid_index
+
+        if number_list[mid_index] < number_to_find:
+            left_index = mid_index + 1
+            
+        else:
+            right_index = mid_index - 1
+    return -1
+
+def find_all_occurance(number_list,number_to_find):
+    # Find the index of the number using binary search
+    find_index = binarysearch(number_list, number_to_find)  # Ensure this function is defined
+    if find_index is None:
+        return []  # If not found, return an empty list
+
+    # Initialize lists to store indices
+    index_list_back = []
+    index_list_forward = []
+
+    # Traverse backward
+    back_index = find_index
+    while back_index >= 0 and number_list[back_index] == number_to_find:
+        index_list_back.append(back_index)
+        back_index -= 1
+
+    # Traverse forward
+    forward_index = find_index + 1
+    while forward_index < len(number_list) and number_list[forward_index] == number_to_find:
+        index_list_forward.append(forward_index)
+        forward_index += 1
+
+    # Combine the backward and forward indices
+    occurance_list = (index_list_back + index_list_forward)
+    #occurance_list.sort()
+    return sorted(occurance_list)
+
+
+
+
+
+def binary_search_recursion(number_list,number_to_find,left_index,right_index):
+    if left_index <= right_index:
+    
+        mid_index = (right_index + left_index)//2
+        if number_list[mid_index] == number_to_find:
+                return  mid_index
+        
+        if number_list[mid_index] < number_to_find:
+            left_index = mid_index + 1        
+        else:
+            right_index = mid_index - 1
+        return binary_search_recursion(number_list,number_to_find,left_index,right_index)
+    else:
+        return -1
+    
+       
+if __name__ == '__main__':
+    numbers_list = [1,4,6,9,11,15,15,15,15,15,17,21,34,34,56]
+    number_to_find = 15
+
+    index = binary_search_recursion(numbers_list, number_to_find,0,len(numbers_list) - 1)
+    print(f'index of this no:{index}')
+
+    occuarance_index = find_all_occurance(numbers_list, number_to_find)
+    print(f'{index} occure at index:{occuarance_index}')
